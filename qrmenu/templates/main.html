@@ -45,25 +45,26 @@
         {% endif %}
 
         <!-- Table Buttons -->
-        <div class="row">
-            {% for table in tables %}
-            <div class="col-6 col-md-3 my-3">
-                <div class="card">
-                    <div class="card-body p-2">
-                        <button id="table-{{ table.table_number }}" class="btn btn-outline-success w-100 table-btn mb-2">
-                            Table {{ table.table_number }}
-                        </button>
+       <div class="row">
+    {% for table in tables %}
+    <div class="col-6 col-md-3 my-3">
+        <div class="card">
+            <div class="card-body p-2">
+                <a href="{% url 'view_orders' table.table_number %}" class="btn btn-outline-success w-100 table-btn mb-2">
+                    Table {{ table.table_number }}
+                </a>
 
-                        <!-- Delete Form -->
-                        <form method="post" action="{% url 'delete_table' table.id %}" onsubmit="return confirm('Are you sure you want to delete this table?');">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-warning w-100">🗑️ Delete</button>
-                        </form>
-                    </div>
-                </div>
+                <!-- Delete Form -->
+                <form method="post" action="{% url 'delete_table' table.id %}" onsubmit="return confirm('Are you sure you want to delete this table?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-warning w-100">🗑️ Delete</button>
+                </form>
             </div>
-            {% endfor %}
         </div>
+    </div>
+    {% endfor %}
+</div>
+
 
         <!-- Add Table Button -->
         <div class="text-center mt-4">
@@ -72,6 +73,12 @@
 
         <!-- Item Management Button -->
         <div class="mt-4">
+            
+<a href="{% url 'order_dashboard' %}" class="btn btn-info w-100" style="height: 60px; font-size: 1.5rem;">
+    <i class="fas fa-box"></i> 🍕 Orders Management
+</a>
+</div>
+<div class="mt-4">
             <a href="{% url 'item_management' %}" class="btn btn-info w-100" style="height: 60px; font-size: 1.5rem;">
                 🍽️ Food Item Management
             </a>

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4 text-center">Order Dashboard</h1>
+  
+  <!-- Date Selector Form -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-6">
+      <form method="get">
+        <div class="d-flex justify-content-between align-items-center">
+          <label for="date" class="mb-0">Select Date:</label>
+          <input type="date" id="date" name="date" value="{{ selected_date|date:'Y-m-d' }}" max="{{ today|date:'Y-m-d' }}" required class="form-control w-auto">
+          <button type="submit" class="btn btn-primary ml-2">Filter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Debugging line to check if 'orders' exists -->
+  <p class="text-center">Orders count: {{ orders.count }}</p>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Order ID</th>
+          <th>Date/Time</th>
+          <th>Table Number</th>
+          <th>Total Amount</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="order-list">
+        {% for order in orders %}
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.timestamp|date:"Y-m-d H:i" }}</td>  <!-- Corrected field name to 'timestamp' -->
+            <td>{{ order.table.table_number }}</td>
+            <td>€ {{ order.get_total_amount|floatformat:2 }}</td>
+            <td>
+              <span class="badge bg-success">Confirmed</span>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5">No confirmed orders at the moment.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+<!-- Go Back Button -->
+  <div class="text-center mt-4">
+    <a href="{% url 'main_dashboard' %}" class="btn btn-secondary">Go Back to Main</a>
+  </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,12 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Add New Table</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Add Table</button>
-    </form>
+<div class="container mt-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">Add New Table</h2>
+        <form method="POST" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger small">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success">Add Table</button>
+                <a href="{% url 'main_dashboard' %}" class="btn btn-secondary">Return</a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
+
